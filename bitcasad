@@ -151,7 +151,6 @@ if __name__ == '__main__':
 
     home       = os.getenv('HOME')
     cred_paths = [ home + '/.bitcasa/credentials.ini', '/etc/bitcasa.ini' ]
-    mounts     = mount_data(cred_paths)
 
     fusermount = option.fusermount
     log        = init_logging(option.log_file)
@@ -163,6 +162,8 @@ if __name__ == '__main__':
 
     try:
         while True:
+            mounts = mount_data(cred_paths)
+
             for cred_file in mounts.keys():
                 for mount_point in mounts[cred_file].keys():
                     if not os.path.ismount(mount_point):
@@ -195,7 +196,7 @@ if __name__ == '__main__':
                                         % (
                                                 mount_point
                                                 , proc.returncode
-                                                , proc.stdout.read(4096).replace    ('\n', ' ')
+                                                , proc.stdout.read(4096).replace('\n', ' ')
                                         )
                             )
                         else:
